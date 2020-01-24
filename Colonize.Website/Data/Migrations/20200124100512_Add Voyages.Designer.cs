@@ -4,14 +4,16 @@ using Colonize.Website.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Colonize.Website.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20200124100512_Add Voyages")]
+    partial class AddVoyages
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -38,29 +40,6 @@ namespace Colonize.Website.Data.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Destination");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            Description = "Lorem ipsum",
-                            ImageUrl = "http://via.placeholder.com/790x800.png?text=Moon",
-                            Name = "Moon"
-                        },
-                        new
-                        {
-                            Id = 2,
-                            Description = "Lorem ipsum",
-                            ImageUrl = "http://via.placeholder.com/790x800.png?text=Mars",
-                            Name = "MarsRunner"
-                        },
-                        new
-                        {
-                            Id = 3,
-                            Description = "Lorem ipsum",
-                            ImageUrl = "http://via.placeholder.com/790x800.png?text=Jupiter",
-                            Name = "Jupiter"
-                        });
                 });
 
             modelBuilder.Entity("Colonize.Website.Data.Entities.Ship", b =>
@@ -85,32 +64,6 @@ namespace Colonize.Website.Data.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Ship");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            Description = "Lorem ipsum",
-                            ImageUrl = "http://via.placeholder.com/790x800.png?text=Moonshot",
-                            Name = "MoonShot",
-                            PassengerCapacity = 200
-                        },
-                        new
-                        {
-                            Id = 2,
-                            Description = "Lorem ipsum",
-                            ImageUrl = "http://via.placeholder.com/790x800.png?text=MarsRunner",
-                            Name = "MarsRunner",
-                            PassengerCapacity = 200
-                        },
-                        new
-                        {
-                            Id = 3,
-                            Description = "Lorem ipsum",
-                            ImageUrl = "http://via.placeholder.com/790x800.png?text=StarX",
-                            Name = "StarX",
-                            PassengerCapacity = 200
-                        });
                 });
 
             modelBuilder.Entity("Colonize.Website.Data.Entities.Voyage", b =>
@@ -120,16 +73,16 @@ namespace Colonize.Website.Data.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<DateTime>("ArrivalAt")
+                    b.Property<DateTime>("ArrvialAt")
                         .HasColumnType("datetime2");
 
                     b.Property<DateTime>("DepartureAt")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("DestinationId")
+                    b.Property<int?>("DestinationId")
                         .HasColumnType("int");
 
-                    b.Property<int>("ShipId")
+                    b.Property<int?>("ShipId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
@@ -139,24 +92,6 @@ namespace Colonize.Website.Data.Migrations
                     b.HasIndex("ShipId");
 
                     b.ToTable("Voyage");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            ArrivalAt = new DateTime(2020, 12, 12, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            DepartureAt = new DateTime(2020, 7, 12, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            DestinationId = 1,
-                            ShipId = 1
-                        },
-                        new
-                        {
-                            Id = 2,
-                            ArrivalAt = new DateTime(2022, 8, 8, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            DepartureAt = new DateTime(2020, 8, 8, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            DestinationId = 2,
-                            ShipId = 2
-                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -363,15 +298,11 @@ namespace Colonize.Website.Data.Migrations
                 {
                     b.HasOne("Colonize.Website.Data.Entities.Destination", "Destination")
                         .WithMany()
-                        .HasForeignKey("DestinationId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("DestinationId");
 
                     b.HasOne("Colonize.Website.Data.Entities.Ship", "Ship")
                         .WithMany()
-                        .HasForeignKey("ShipId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("ShipId");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
